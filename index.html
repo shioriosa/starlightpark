@@ -8,6 +8,15 @@
 <style>
 body { margin:0; padding:0; }
 #map { position:absolute; top:0; bottom:0; width:100%; }
+
+.marker {
+        background-image: url('cloud.png');
+        background-size: cover;
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+        cursor: pointer;
+      }
 </style>
 </head>
 <body>
@@ -18,6 +27,39 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoic2hpb3Jpb3NhIiwiYSI6ImNqb3hmam5rZjI4NXEzcHB0M
 var map = new mapboxgl.Map({
 container: 'map',
 style: 'mapbox://styles/shioriosa/cjv5v2y8j2rz01fqc7dlbym0z'})
+
+var geojson = {
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -73.881630,40.834082]
+    },
+    "properties": {
+    "Type":"Cloud"
+    }
+  }
+  ]
+}
+;
+
+// add markers to map
+geojson.features.forEach(function(marker) {
+
+  // var symbol = feature.properties.Type;
+  // var layerID = 'poi-' + symbol;
+
+  // create a HTML element for each feature
+  var el = document.createElement('div');
+  el.className = 'marker';
+
+   // make a marker for each feature and add to the map
+  new mapboxgl.Marker(el)
+    .setLngLat(marker.geometry.coordinates)
+    .addTo(map);
+});
 
 </script>
  
